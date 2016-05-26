@@ -7,4 +7,6 @@ public class NUC_CMD {
 	public static String NUC_CMD_X_7_XYXW = "CMD_X_7_XYXW";
 	public static String NUC_CMD_X_7_XSHD = "CMD_X_7_XSHD";
 	public static String NUC_CMD_X_7_TZGG = "CMD_X_7_TZGG";
+	public static String NUC_GGTL_S = "SCHOOL";
+	public static String NUC_GGTL_X_7 = "X_7";
 }

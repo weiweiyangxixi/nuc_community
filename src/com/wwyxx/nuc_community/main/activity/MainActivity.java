@@ -1,8 +1,14 @@
 package com.wwyxx.nuc_community.main.activity;
 
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobUser;
+
 import com.wwyxx.nuc_community.school.ui.fragment.SchoolFragment;
 import com.wwyxx.nuc_community.shezhi.ui.fragment.SheZhiFragment;
 import com.wwyxx.nuc_community.shoucang.ui.fragment.ShouCangFragment;
+import com.wwyxx.nuc_community.user.NUCUser;
+import com.wwyxx.nuc_community.user.ui.activity.UserInfoActivity;
+import com.wwyxx.nuc_community.user.ui.activity.UserLoginActivity;
 import com.wwyxx.nuc_community.util.ResideMenu;
 import com.wwyxx.nuc_community.util.ResideMenuInfo;
 import com.wwyxx.nuc_community.util.ResideMenuItem;
@@ -44,30 +50,38 @@ public class MainActivity extends FragmentActivity implements
 	private Button leftMenu;
 	private int dandQianXueYuan = 7;
 	private boolean yeWanPiFu = false;//
+	private NUCUser localUser = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-
+		Bmob.initialize(getApplicationContext(),
+				"c35eaaabcbdfe3df0ebcabc3babd4159");
+		initLocalUser();
 		setUpMenu();
 		changeFragment(new SchoolFragment());
 		setListenerOfSmallItem();
 		setListener();
 	}
 
+	private void initLocalUser() {
+		// TODO Auto-generated method stub
+		localUser = (NUCUser) BmobUser.getCurrentUser(this, NUCUser.class);
+	}
+
 	private void setListenerOfSmallItem() {
 		textViewXuanZeXueYuan.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				showListDia() ;
+				showListDia();
 			}
 		});
 		textViewYeWanPiFu.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
@@ -81,7 +95,7 @@ public class MainActivity extends FragmentActivity implements
 				}
 			}
 		});
-		
+
 	}
 
 	private void setListener() {
@@ -107,8 +121,6 @@ public class MainActivity extends FragmentActivity implements
 	private void setUpMenu() {
 		leftMenu = (Button) findViewById(R.id.title_bar_left_menu);
 
-
-
 		// attach to current activity;
 		resideMenu = new ResideMenu(this);
 		resideMenu.setBackground(R.drawable.menu_bkg_normal);
@@ -133,12 +145,17 @@ public class MainActivity extends FragmentActivity implements
 		resideMenu.addMenuItem(itemXueYuan, ResideMenu.DIRECTION_LEFT);
 		resideMenu.addMenuItem(itemShouCang, ResideMenu.DIRECTION_LEFT);
 		resideMenu.addMenuItem(itemSheZhi, ResideMenu.DIRECTION_LEFT);
-		
+
 		textViewXuanZeXueYuan = (TextView) findViewById(R.id.textView_xuanzexueyuan);
 		textViewYeWanPiFu = (TextView) findViewById(R.id.textView_yewanpifu);
 
-		info = new ResideMenuInfo(this, R.drawable.ic_launcher, "中北社区", "");
-
+		if (localUser == null) {
+			info = new ResideMenuInfo(this, R.drawable.ic_launcher, "点击登录",
+					"点击图片登录");
+		} else {
+			info = new ResideMenuInfo(this, R.drawable.ic_launcher,
+					localUser.getNickName(), "");
+		}
 	}
 
 	@Override
@@ -153,11 +170,20 @@ public class MainActivity extends FragmentActivity implements
 		} else if (view == itemShouCang) {
 			changeFragment(new ShouCangFragment());
 		} else if (view == info) {
-			// Intent intent = new Intent();
-			// intent.putExtra("flog", "个人信息");
-			// intent.setClass(getApplicationContext(), SettingActivity.class);
-			// startActivity(intent);
-		} 
+			if (localUser == null) {
+				Intent intent = new Intent();
+				intent.setClass(getApplicationContext(),
+						UserLoginActivity.class);
+				startActivity(intent);
+
+			} else {
+				Intent intent = new Intent();
+				intent.setClass(getApplicationContext(),
+						UserInfoActivity.class);
+				startActivity(intent);
+			}
+
+		}
 
 	}
 
@@ -215,22 +241,26 @@ public class MainActivity extends FragmentActivity implements
 	public boolean dispatchTouchEvent(MotionEvent ev) {
 		return resideMenu.dispatchTouchEvent(ev);
 	}
-	private void showListDia()  
-    {  
-        final String[] mList={"机电工程学院","机械与动力工程学院","材料科学与工程学院","化工与环境学院","信息与通信工程学院","仪器与电子学院","计算机与控制工程学院","理学院","经济与管理学院","人文社会科学学院","体育学院","艺术学院","软件学院","研究生院","继续教育学院","后备军官教育学院","国际教育学院","信息商务学院"};  
-        AlertDialog.Builder listDia=new AlertDialog.Builder(MainActivity.this);  
-        listDia.setTitle("选择学院");  
-        listDia.setItems(mList, new DialogInterface.OnClickListener() {  
-              
-            @Override  
-            public void onClick(DialogInterface dialog, int which) {  
-                // TODO Auto-generated method stub  
-                /*下标是从0开始的*/  
-                dandQianXueYuan = which+1; 
-                Toast.makeText(getApplicationContext(), dandQianXueYuan+"", 3).show();
-            }
- 
-        });  
-        listDia.create().show();  
-    } 
+
+	private void showListDia() {
+		final String[] mList = { "机电工程学院", "机械与动力工程学院", "材料科学与工程学院", "化工与环境学院",
+				"信息与通信工程学院", "仪器与电子学院", "计算机与控制工程学院", "理学院", "经济与管理学院",
+				"人文社会科学学院", "体育学院", "艺术学院", "软件学院", "研究生院", "继续教育学院",
+				"后备军官教育学院", "国际教育学院", "信息商务学院" };
+		AlertDialog.Builder listDia = new AlertDialog.Builder(MainActivity.this);
+		listDia.setTitle("选择学院");
+		listDia.setItems(mList, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				/* 下标是从0开始的 */
+				dandQianXueYuan = which + 1;
+				Toast.makeText(getApplicationContext(), dandQianXueYuan + "", 3)
+						.show();
+			}
+
+		});
+		listDia.create().show();
+	}
 }

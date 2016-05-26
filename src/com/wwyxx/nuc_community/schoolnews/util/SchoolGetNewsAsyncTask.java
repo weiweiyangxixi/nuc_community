@@ -1,5 +1,7 @@
 package com.wwyxx.nuc_community.schoolnews.util;
 
+import java.util.List;
+
 import com.wwyxx.nuc_community.schoolnews.entity.SchoolNewsBean;
 import com.wwyxx.nuc_community.schoolnews.entity.SchoolNewsPage;
 import com.wwyxx.nuc_community.util.NUC_CMD;
