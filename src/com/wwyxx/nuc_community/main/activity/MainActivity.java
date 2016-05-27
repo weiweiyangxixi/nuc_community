@@ -52,6 +52,10 @@ public class MainActivity extends FragmentActivity implements
 	private boolean yeWanPiFu = false;//
 	private NUCUser localUser = null;
 
+	public NUCUser getLocalUser() {
+		return localUser;
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

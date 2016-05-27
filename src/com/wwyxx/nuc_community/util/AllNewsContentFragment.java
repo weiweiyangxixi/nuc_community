@@ -1,42 +1,46 @@
-package com.wwyxx.nuc_community.xueyuan.ui.fragment;
+package com.wwyxx.nuc_community.util;
 
 import com.wwyxx.nuc_community.main.activity.R;
-import com.wwyxx.nuc_community.util.NUC_CMD;
 import com.wwyxx.nuc_community.xueyuan7news.util.XueYuan7GetNewsAsyncTask;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
-public class XueYuan_TZGGFragment extends Fragment implements OnClickListener{
+public class AllNewsContentFragment extends Fragment {
 	private View parentView;
-	private ListView mListView;
+	private TextView textView;
+	private String hrefString;
+	
+	
+	public AllNewsContentFragment(String href)
+	{
+		super();
+		this.hrefString = href;
+	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		parentView = inflater.inflate(R.layout.fragment_templat_xueyuan_news, container,
+		parentView = inflater.inflate(R.layout.fragment_templat_all_newspage, container,
 				false);
 		return parentView;
 	}
-
 	private void init() {
 		// TODO Auto-generated method stub
-		mListView = (ListView) this.getActivity().findViewById(R.id.listView_xueyuan_xueyuannews);
-		XueYuan7GetNewsAsyncTask mAsyncTask = new XueYuan7GetNewsAsyncTask(mListView,this.getActivity().getSupportFragmentManager(),this.getActivity());
-		mAsyncTask.execute(NUC_CMD.NUC_CMD_X_7_TZGG);
+		textView = (TextView) this.getActivity().findViewById(R.id.textView_all_news_page_textview);
+		AllGetNewsContentAsnyctask mAsnyctask = new AllGetNewsContentAsnyctask(textView);
+		mAsnyctask.execute(hrefString);
+		
 	}
 	@Override  
     public void onActivityCreated(Bundle savedInstanceState) {  
         super.onActivityCreated(savedInstanceState);  
         init();
+        
     }  
 
-	@Override
-	public void onClick(View view) {
-		
-	}
 }

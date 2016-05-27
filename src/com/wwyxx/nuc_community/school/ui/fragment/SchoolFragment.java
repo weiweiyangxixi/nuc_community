@@ -48,15 +48,15 @@ public class SchoolFragment extends Fragment implements OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()) {
 		case R.id.textView_tab_school_xngg:
-			Toast.makeText(this.getActivity().getApplicationContext(), "textView_tab_school_xngg", 3).show();
+			//Toast.makeText(this.getActivity().getApplicationContext(), "textView_tab_school_xngg", 3).show();
 			changeFragment(new School_XNGGFragment());
 			break;
 		case R.id.textView_tab_school_zbxw:
-			Toast.makeText(this.getActivity().getApplicationContext(), "textView_tab_school_zbxw", 3).show();
+			//Toast.makeText(this.getActivity().getApplicationContext(), "textView_tab_school_zbxw", 3).show();
 			changeFragment(new School_ZBXWFragment());
 			break;
 		case R.id.textView_tab_school_ggtl:
-			Toast.makeText(this.getActivity().getApplicationContext(), "textView_tab_school_ggtl", 3).show();
+			//Toast.makeText(this.getActivity().getApplicationContext(), "textView_tab_school_ggtl", 3).show();
 			changeFragment(new School_GGTLFragment());
 			break;
 		default:

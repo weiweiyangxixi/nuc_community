@@ -1,9 +1,11 @@
 package com.wwyxx.nuc_community.xueyuan.ui.fragment;
 
 import com.wwyxx.nuc_community.main.activity.R;
+import com.wwyxx.nuc_community.school.ui.fragment.School_XNGGFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,6 +26,7 @@ public class XueYuanFragment extends Fragment implements OnClickListener{
 			Bundle savedInstanceState) {
 		parentView = inflater.inflate(R.layout.fragment_xueyuan, container,
 				false);
+		changeFragment(new XueYuan_XYXWFragment());
 		return parentView;
 	}
 
@@ -48,21 +51,31 @@ public class XueYuanFragment extends Fragment implements OnClickListener{
 	public void onClick(View view) {
 		switch (view.getId()) {
 		case R.id.textView_tab_xueyuan_xyxw:
-			Toast.makeText(this.getActivity().getApplicationContext(), "textView_tab_xueyuan_xyxw", 3).show();
+			//Toast.makeText(this.getActivity().getApplicationContext(), "textView_tab_xueyuan_xyxw", 3).show();
+			changeFragment(new XueYuan_XYXWFragment());
 			break;
 		case R.id.textView_tab_xueyuan_xshd:
-			Toast.makeText(this.getActivity().getApplicationContext(), "textView_tab_xueyuan_xshd", 3).show();
+			//Toast.makeText(this.getActivity().getApplicationContext(), "textView_tab_xueyuan_xshd", 3).show();
+			changeFragment(new XueYuan_XSHDFragment());
 			break;
 		case R.id.textView_tab_xueyuan_tzgg:
-			Toast.makeText(this.getActivity().getApplicationContext(), "textView_tab_xueyuan_tzgg", 3).show();
+			//Toast.makeText(this.getActivity().getApplicationContext(), "textView_tab_xueyuan_tzgg", 3).show();
+			changeFragment(new XueYuan_TZGGFragment());
 			break;
 		case R.id.textView_tab_xueyuan_ggtl:
-			Toast.makeText(this.getActivity().getApplicationContext(), "textView_tab_xueyuan_ggtl", 3).show();
+			//Toast.makeText(this.getActivity().getApplicationContext(), "textView_tab_xueyuan_ggtl", 3).show();
+			changeFragment(new XueYuan_GGTLFragment());
 			break;
 		default:
 			break;
 		}
 
+	}
+	private void changeFragment(Fragment targetFragment) {
+		this.getActivity().getSupportFragmentManager().beginTransaction()
+				.replace(R.id.xueyuan_main_fragment, targetFragment, "fragment")
+				.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+				.commit();
 	}
 
 }

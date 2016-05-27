@@ -34,7 +34,7 @@ public class School_XNGGFragment extends Fragment implements OnClickListener {
 		
 		// TODO Auto-generated method stub
 		listView = (ListView) this.getActivity().findViewById(R.id.listView_school_xngg);
-		SchoolGetNewsAsyncTask mAsyncTask = new SchoolGetNewsAsyncTask(listView,this.getActivity());
+		SchoolGetNewsAsyncTask mAsyncTask = new SchoolGetNewsAsyncTask(listView,this.getActivity(),this.getActivity().getSupportFragmentManager());
 		mAsyncTask.execute(NUC_CMD.NUC_CMD_S_XNGG);
 	}
 

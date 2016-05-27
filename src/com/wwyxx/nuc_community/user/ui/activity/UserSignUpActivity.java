@@ -2,6 +2,7 @@ package com.wwyxx.nuc_community.user.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -12,6 +13,10 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Toast;
 
+import cn.bmob.sms.BmobSMS;
+import cn.bmob.sms.exception.BmobException;
+import cn.bmob.sms.listener.RequestSMSCodeListener;
+import cn.bmob.sms.listener.VerifySMSCodeListener;
 import cn.bmob.v3.c.i;
 import cn.bmob.v3.listener.InitListener;
 import cn.bmob.v3.listener.SaveListener;
@@ -87,7 +92,20 @@ public class UserSignUpActivity extends BaseActivity implements OnClickListener 
 		// TODO Auto-generated method stub
 		switch (view.getId()) {
 		case R.id.signup_button:
-			signUp();
+			BmobSMS.verifySmsCode(getApplicationContext(),editTextUserName.getText().toString(), editTextCheckNumber.getText().toString(), new VerifySMSCodeListener() {
+
+			    @Override
+			    public void done(BmobException ex) {
+			        // TODO Auto-generated method stub
+			        if(ex==null){//短信验证码已验证成功
+			            Log.i("bmob", "验证通过");
+			            signUp();
+			        }else{
+			            Log.i("bmob", "验证失败：code ="+ex.getErrorCode()+",msg = "+ex.getLocalizedMessage());
+			        }
+			    }
+			});
+			
 			break;
 		case R.id.get_check_number_button:
 			getCheckNum();
@@ -99,7 +117,24 @@ public class UserSignUpActivity extends BaseActivity implements OnClickListener 
 
 	private void getCheckNum() {
 		// TODO Auto-generated method stub
-		Toast.makeText(getApplicationContext(), "获取验证码", 3).show();
+		//Toast.makeText(getApplicationContext(), "获取验证码", 3).show();
+		if (!editTextUserName.getText().toString().equals("")) {
+			BmobSMS.requestSMSCode(getApplicationContext(), editTextUserName.getText().toString(), "短信验证",new RequestSMSCodeListener() {
+
+			    @Override
+			    public void done(Integer smsId,BmobException ex) {
+			        // TODO Auto-generated method stub
+			        if(ex==null){//验证码发送成功
+			            Log.i("bmob", "短信id："+smsId);//用于查询本次短信发送详情
+			            Toast.makeText(getApplicationContext(), "验证码已经发送到该手机", 3).show();
+			        }
+			    }
+
+			});
+		}else {
+			Toast.makeText(getApplicationContext(), "手机号码不得为空", 3).show();
+		}
+		
 	}
 
 	private void signUp() {
@@ -110,7 +145,7 @@ public class UserSignUpActivity extends BaseActivity implements OnClickListener 
 		emailString = editTextEmail.getText().toString();
 		nickNameString = editTextNickName.getText().toString();
 
-		if (checkAllInfo()) {
+		if (checkInfo()) {
 			// TODO Auto-generated method stub
 
 			NUCUser user = new NUCUser();
@@ -143,16 +178,6 @@ public class UserSignUpActivity extends BaseActivity implements OnClickListener 
 
 	}
 
-	private boolean checkAllInfo() {
-		// TODO Auto-generated method stub
-		boolean flag = true;
-		if (!checkNumString.equals("666666")) {
-			flag = false;
-			Toast.makeText(getApplicationContext(), "验证码度错误", 3).show();
-		}
-		flag = checkInfo();
-		return flag;
-	}
 
 	private boolean checkInfo() {
 		// TODO Auto-generated method stub

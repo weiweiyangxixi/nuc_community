@@ -8,13 +8,14 @@
         android:id="@+id/xueyuan_main_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="10"
         android:orientation="vertical" >
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginTop="-70dp"
+        android:layout_height="60dp"
+        android:layout_weight="1"
         android:orientation="vertical" >
 
         <View
@@ -25,7 +26,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:orientation="horizontal" >
+            android:orientation="horizontal" 
+             android:background="#234556">
 
             <TextView
                 android:id="@+id/textView_tab_xueyuan_xyxw"
@@ -33,6 +35,7 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="#999999"
                 android:text="学院新闻" />
 
             <View
@@ -46,6 +49,7 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="#999999"
                 android:text="学生活动" />
 
             <View
@@ -59,6 +63,7 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="#999999"
                 android:text="通知公告" />
             <View
                 android:layout_width="0.5dp"
@@ -71,6 +76,7 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="#999999"
                 android:text="公共讨论" />
         </LinearLayout>
     </LinearLayout>
